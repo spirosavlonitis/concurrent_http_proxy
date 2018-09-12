@@ -40,11 +40,11 @@ void proxy(int clifd)
 	Connect(sockfd, (SA *) servaddr->ai_addr, servaddr->ai_addrlen);
 
 	FD_ZERO(&rset);
-	FD_SET(sockfd, &rset);
 	Writen(sockfd, buf, n);
 	for (; ;) {
 		if (clieof == 0)
 			FD_SET(clifd ,&rset);
+		FD_SET(sockfd, &rset);
 
 		if (!Select(maxfd, &rset, NULL, NULL, &timeout))
 			err_quit("proxy: timeout");
@@ -52,10 +52,9 @@ void proxy(int clifd)
 		if (FD_ISSET(sockfd, &rset)) {
 			if ( (n = Read(sockfd, buf, MAXLINE)) == 0) {
 				if (clieof == 0)
-					err_quit("Remote server terminated primaturely");
-				else {
+					err_quit("%s terminated primaturely", domain);
+				else 
 					return;
-				}
 			}else if (n == -1)
 				err_sys("read error");
 			Writen(clifd, buf, n);
