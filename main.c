@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
 	for (; ;) {
 		clilen = sizeof(struct sockaddr_in);
 		connfd = Accept(listenfd, (SA *) &cliaddr, &clilen);
-		printf("New connection from %s:%d\n", 
+/*		printf("New connection from %s:%d\n", 
 			   Inet_ntop(AF_INET, (SA *) &cliaddr.sin_addr, buf, clilen),ntohs(cliaddr.sin_port));
-
+*/
 		if ((chldpid = fork()) == 0) {
 			Close(listenfd);
 			proxy(connfd);
