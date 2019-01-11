@@ -70,10 +70,7 @@ void proxy(int clifd)
 				err_sys("read error");
 			Writen(sockfd, buf, n);
 		}
-	}
-
-
-	
+	}	
 }
 
 
